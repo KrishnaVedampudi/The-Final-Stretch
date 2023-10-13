@@ -29,7 +29,8 @@ def main():
 def on(number):
     client = connect_mqtt()
     client.loop_start()
-    send_data(client, number)
+    msg = str(number)
+    send_data(client, msg)
 
 @app.route('/1', methods=['POST'])
 def release():
@@ -45,7 +46,7 @@ def test():
 def activate():
     on(3)
     return render_template('3.html')
-
+    
 @app.route('/4', methods=['POST'])
 def ignite():
     on(4)
@@ -61,8 +62,7 @@ def srb():
     on(6)
     return render_template('6.html')
 
-def send_data(client,number):
-    msg=str(number)
+def send_data(client,msg):    
     result = client.publish(topic, msg)
     status = result[0]
     if status == 0:
